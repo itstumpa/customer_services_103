@@ -1,0 +1,56 @@
+[
+  {
+    "customer_name": "Liam Parker",
+    "customer_problems": "Login Issue",
+    "problem_details": "Cannot reset password, receives unknown error.",
+    "problem_number": 1001,
+    "Priority": "High",
+    "date": "2025-09-12",
+    "button": "Open"
+  },
+  {
+    "customer_name": "Sophia Martinez",
+    "customer_problems": "Payment Failure",
+    "problem_details": "Credit card payment declined despite valid card.",
+    "problem_number": 1002,
+    "Priority": "Medium",
+    "date": "2025-08-30",
+    "button": "Resolve"
+  },
+  {
+    "customer_name": "Ethan Wilson",
+    "customer_problems": "Account Suspension",
+    "problem_details": "Account locked unexpectedly after login attempts.",
+    "problem_number": 1003,
+    "Priority": "High",
+    "date": "2025-07-21",
+    "button": "In-Progress"
+  },
+  {
+    "customer_name": "Olivia Brown",
+    "customer_problems": "App Crash",
+    "problem_details": "App crashes when uploading profile picture.",
+    "problem_number": 1004,
+    "Priority": "Low",
+    "date": "2025-09-18",
+    "button": "Open"
+  },
+  {
+    "customer_name": "Noah Davis",
+    "customer_problems": "Refund Request",
+    "problem_details": "Refund not processed after 7 business days.",
+    "problem_number": 1005,
+    "Priority": "Medium",
+    "date": "2025-08-05",
+    "button": "Resolve"
+  },
+  {
+    "customer_name": "Emma Thompson",
+    "customer_problems": "Slow Performance",
+    "problem_details": "Website takes too long to load pages on mobile.",
+    "problem_number": 1006,
+    "Priority": "Low",
+    "date": "2025-09-23",
+    "button": "In-Progress"
+  }
+]
