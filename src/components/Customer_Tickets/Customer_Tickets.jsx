@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendar, faCircle } from "@fortawesome/free-solid-svg-icons";
 
 const Customer_Tickets = ({ customersPromise, onSelect, onComplete }) => {
   const [tickets, setTickets] = useState([]);
@@ -8,36 +10,72 @@ const Customer_Tickets = ({ customersPromise, onSelect, onComplete }) => {
   const [resolvedTickets, setResolvedTickets] = useState([]);
 
   useEffect(() => {
-    // Only set tickets if state is empty to prevent overwriting removed tickets
     customersPromise.then(data => {
-      setTickets(prev => prev.length === 0 ? data : prev);
+      if (tickets.length === 0) {
+        setTickets(data);
+      }
     });
   }, [customersPromise]);
 
-  const toggleTicket = (ticket) => {
-    const alreadySelected = selectedTickets.some(t => t.id === ticket.id);
+  const Status_Button = ({ status }) => {
+    let iconColor = "text-gray-400";
+    let bgColor = "bg-gray-100";
 
+    if (status === "Open") {
+      iconColor = "text-green-700";
+      bgColor = "bg-green-100";
+    } else if (status === "In-Progress") {
+      iconColor = "text-yellow-500";
+      bgColor = "bg-yellow-100";
+    }
+
+    return (
+      <div className={`flex items-center gap-2 ${bgColor} px-2 py-1 rounded-full`}>
+        <FontAwesomeIcon icon={faCircle} className={iconColor} />
+        <span className="text-sm text-gray-700">{status}</span>
+      </div>
+    );
+  }
+
+  const Priority_Bg = ({ priority }) => {
+    let bgColor = "bg-gray-300";
+    if (priority === "High") bgColor = "bg-red-500";
+    if (priority === "Medium") bgColor = "bg-yellow-400";
+    if (priority === "Low") bgColor = "bg-green-500";
+
+    return (
+      <div className={`${bgColor} text-white text-xs font-semibold px-2 py-1 rounded`}>
+        {priority}
+      </div>
+    );
+  }
+
+  const toggleTicket = (ticket) => {
+    const alreadySelected = selectedTickets.find(t => t.id === ticket.id);
     if (!alreadySelected) {
-      setSelectedTickets(prev => [...prev, ticket]);
+      const newSelected = [...selectedTickets, ticket];
+      setSelectedTickets(newSelected);
+
       toast.info(`Selected: ${ticket.title} (ID: ${ticket.id})`, {
         position: 'top-right',
         autoClose: 2000,
       });
+
       onSelect();
     }
   }
 
   const handleComplete = (ticketId, title) => {
-    // Find completed ticket before removing
     const completedTicket = tickets.find(t => t.id === ticketId);
 
-    // Remove from tickets and selectedTickets
-    setTickets(prev => prev.filter(t => t.id !== ticketId));
-    setSelectedTickets(prev => prev.filter(t => t.id !== ticketId));
+    const newTickets = tickets.filter(t => t.id !== ticketId);
+    const newSelectedTickets = selectedTickets.filter(t => t.id !== ticketId);
+    setTickets(newTickets);
+    setSelectedTickets(newSelectedTickets);
 
-    // Add to resolvedTickets
     if (completedTicket) {
-      setResolvedTickets(prev => [...prev, completedTicket]);
+      const newResolved = [...resolvedTickets, completedTicket];
+      setResolvedTickets(newResolved);
     }
 
     toast.success(`Completed: ${title} (ID: ${ticketId})`, {
@@ -57,31 +95,33 @@ const Customer_Tickets = ({ customersPromise, onSelect, onComplete }) => {
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         <div className="md:col-span-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {tickets.map(ticket => {
-            const isSelected = selectedTickets.some(t => t.id === ticket.id);
+            const isSelected = selectedTickets.find(t => t.id === ticket.id);
 
             return (
               <div
                 key={ticket.id}
                 onClick={() => toggleTicket(ticket)}
-                className={`h-[100px] rounded shadow-sm p-3 cursor-pointer ${isSelected ? 'bg-blue-100' : 'bg-white'}`}
+                className={`h-[120px] rounded shadow-sm p-3 cursor-pointer ${isSelected ? 'bg-blue-100' : 'bg-white'}`}
               >
                 <div className="flex justify-between mb-2">
                   <h2 className="font-semibold">{ticket.title}</h2>
-                  <span className="text-sm text-gray-500">{ticket.status}</span>
+                  <span className="text-sm rounded-full px-2">
+                    <Status_Button status={ticket.status} />
+                  </span>
                 </div>
                 <p className="mb-2 text-gray-600 text-sm">{ticket.description}</p>
-                <div className="flex justify-between text-xs text-gray-500">
-                  <div className="flex gap-2">
+                <div className="flex items-center text-center justify-between text-xs text-gray-500">
+                  <div className="flex items-center gap-2">
                     <span>{ticket.id}</span>
-                    <span>{ticket.priority}</span>
+                    <Priority_Bg priority={ticket.priority} />
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex items-center gap-3">
                     <span>{ticket.customer}</span>
-                    <span>{ticket.createdAt}</span>
+                    <span><FontAwesomeIcon icon={faCalendar} /> {ticket.createdAt}</span>
                   </div>
                 </div>
               </div>
-            )
+            );
           })}
         </div>
 
