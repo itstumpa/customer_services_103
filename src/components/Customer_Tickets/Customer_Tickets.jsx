@@ -56,7 +56,7 @@ const Customer_Tickets = ({ customersPromise }) => {
               <div
                 key={ticket.id}
                 onClick={() => toggleTicket(ticket)}
-                className={`h-[150px] rounded shadow-sm p-3 cursor-pointer
+                className={`h-[100px] rounded shadow-sm p-3 cursor-pointer
                   ${isSelected ? 'bg-blue-100' : 'bg-white'}`}
               >
                 <div className="flex justify-between mb-2">
