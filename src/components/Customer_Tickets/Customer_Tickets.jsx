@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar, faCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar, faCircle, faCheck} from "@fortawesome/free-solid-svg-icons";
+
 
 const Customer_Tickets = ({ customersPromise, onSelect, onComplete }) => {
   const [tickets, setTickets] = useState([]);
@@ -144,11 +145,51 @@ const Customer_Tickets = ({ customersPromise, onSelect, onComplete }) => {
           )) : <p className="text-sm mb-4">Select tickets to add to Task Status</p>}
 
           <h2 className="font-semibold text-xl mb-2 mt-4 text-[#3b3b3b]">Resolved Task</h2>
-          {resolvedTickets.length > 0 ? resolvedTickets.map(ticket => (
-            <div key={ticket.id} className="mb-2 text-sm text-green-700">
-              {ticket.title} (ID: {ticket.id})
-            </div>
-          )) : <p className="text-sm">No resolved tasks yet.</p>}
+          {resolvedTickets.length > 0 ? resolvedTickets.map(ticket => {
+  const handleCompleteClick = () => {
+    const updatedTickets = resolvedTickets.map(t => {
+      if (t.id === ticket.id) {
+        return { ...t, status: "Completed" };
+      }
+      return t;
+    });
+    setResolvedTickets(updatedTickets);
+  };
+
+  const handleDeleteClick = () => {
+    const remainingTickets = resolvedTickets.filter(t => t.id !== ticket.id);
+    setResolvedTickets(remainingTickets);
+  };
+
+  return (
+    <div 
+      key={ticket.id} 
+      className="mb-2 p-3 bg-green-50 border-b-2 border-gray-300 rounded flex flex-col justify-between"
+    >
+      <div className="mb-2">
+        <span className="font-semibold">{ticket.title}</span> (ID: {ticket.id})
+      </div>
+
+      <div className="flex justify-between mt-2 items-center">
+        <button 
+          onClick={handleCompleteClick}
+          className="text-green-600 text-xs px-2 py-1 flex items-center gap-1"
+        ><FontAwesomeIcon icon={faCheck}/>Completed 
+        </button>
+
+        <button 
+          onClick={handleDeleteClick}
+          className="bg-red-500 text-white text-xs px-2 py-1 rounded"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  );
+}) : (
+  <p className="text-sm">No resolved tasks yet.</p>
+)}
+
         </div>
       </div>
     </div>
