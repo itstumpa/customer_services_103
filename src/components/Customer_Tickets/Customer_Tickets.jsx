@@ -34,6 +34,7 @@ const Customer_Tickets = ({customersPromise}) => {
   </div>
 </div>
 </div>
+<img src="../../assets/vector1.png" alt="" />
 </div>
   )
 }

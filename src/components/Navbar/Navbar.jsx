@@ -20,7 +20,7 @@ const Navbar = () => {
             <li><a>Blog</a></li>
             <li><a>Downoad</a></li>
             <li><a>Contact</a></li>
-            <button className=" ml-2 btn text-white bg-gradient-to-r from-[#624aff] to-[#8e89c1]  flex items-center gap-2 ">  <FontAwesomeIcon icon={faPlus} /> New Ticket</button>
+            <button className=" ml-2 btn text-white bg-gradient-to-r from-[#642FE3] to-[#968dff]  flex items-center gap-2 ">  <FontAwesomeIcon icon={faPlus} /> New Ticket</button>
       
     </ul>
   </div>
