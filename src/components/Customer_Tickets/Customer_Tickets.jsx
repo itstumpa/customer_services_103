@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar, faCircle, faCheck} from "@fortawesome/free-solid-svg-icons";
-
+import { faCalendar, faCircle, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const Customer_Tickets = ({ customersPromise, onSelect, onComplete }) => {
   const [tickets, setTickets] = useState([]);
@@ -16,7 +15,8 @@ const Customer_Tickets = ({ customersPromise, onSelect, onComplete }) => {
         setTickets(data);
       }
     });
-  }, [customersPromise]); //fix
+  },
+);
 
   // status button bg color 
   const Status_Button = ({ status }) => {
@@ -38,7 +38,8 @@ const Customer_Tickets = ({ customersPromise, onSelect, onComplete }) => {
       </div>
     );
   }
-//  priority bg color add 
+
+  //  priority bg color add 
   const Priority_Bg = ({ priority }) => {
     let bgColor = "bg-gray-300";
     if (priority === "High") bgColor = "bg-red-500";
@@ -67,10 +68,11 @@ const Customer_Tickets = ({ customersPromise, onSelect, onComplete }) => {
       onSelect();
     }
   }
-// taskbar
+
+  // taskbar
   const handleComplete = (ticketId, title) => {
     const completedTicket = tickets.find(t => t.id === ticketId);
-// delete card 
+    // delete card 
     const newTickets = tickets.filter(t => t.id !== ticketId);
     const newSelectedTickets = selectedTickets.filter(t => t.id !== ticketId);
     setTickets(newTickets);
@@ -80,7 +82,7 @@ const Customer_Tickets = ({ customersPromise, onSelect, onComplete }) => {
       const newResolved = [...resolvedTickets, completedTicket];
       setResolvedTickets(newResolved);
     }
-// alert 
+    // alert 
     toast.success(`Completed: ${title} (ID: ${ticketId})`, {
       position: 'top-right',
       autoClose: 2000,
@@ -128,10 +130,10 @@ const Customer_Tickets = ({ customersPromise, onSelect, onComplete }) => {
             );
           })}
         </div>
-{/* parent task status  */}
+        {/* parent task status  */}
         <div className="md:col-span-1 w-full h-auto px-4 py-3 bg-white rounded shadow-sm text-[#777777]">
           <h2 className="font-semibold text-xl mb-2 text-[#3b3b3b]">Task Status</h2>
-{/* when click card button show  */}
+          {/* when click card button show  */}
           {selectedTickets.length > 0 ? selectedTickets.map(ticket => (
             <div key={ticket.id} className="mb-3 p-2 border-b border-gray-200">
               <h3 className="font-semibold text-sm">{ticket.title}</h3>
@@ -146,50 +148,37 @@ const Customer_Tickets = ({ customersPromise, onSelect, onComplete }) => {
 
           <h2 className="font-semibold text-xl mb-2 mt-4 text-[#3b3b3b]">Resolved Task</h2>
           {resolvedTickets.length > 0 ? resolvedTickets.map(ticket => {
-  const handleCompleteClick = () => {
-    const updatedTickets = resolvedTickets.map(t => {
-      if (t.id === ticket.id) {
-        return { ...t, status: "Completed" };
-      }
-      return t;
-    });
-    setResolvedTickets(updatedTickets);
-  };
+            const handleDeleteClick = () => {
+              const remainingTickets = resolvedTickets.filter(t => t.id !== ticket.id);
+              setResolvedTickets(remainingTickets);
+            };
 
-  const handleDeleteClick = () => {
-    const remainingTickets = resolvedTickets.filter(t => t.id !== ticket.id);
-    setResolvedTickets(remainingTickets);
-  };
+            return (
+              <div 
+                key={ticket.id} 
+                className="mb-2 p-3 bg-green-50 border-b-2 border-gray-300 rounded flex flex-col justify-between"
+              >
+                <div className="mb-2">
+                  <span className="font-semibold">{ticket.title}</span> (ID: {ticket.id})
+                </div>
 
-  return (
-    <div 
-      key={ticket.id} 
-      className="mb-2 p-3 bg-green-50 border-b-2 border-gray-300 rounded flex flex-col justify-between"
-    >
-      <div className="mb-2">
-        <span className="font-semibold">{ticket.title}</span> (ID: {ticket.id})
-      </div>
+                <div className="flex justify-between mt-2 items-center">
+                  <span className="text-green-600 text-xs px-2 py-1 flex items-center gap-1">
+                    <FontAwesomeIcon icon={faCheck} /> Completed 
+                  </span>
 
-      <div className="flex justify-between mt-2 items-center">
-        <button 
-          onClick={handleCompleteClick}
-          className="text-green-600 text-xs px-2 py-1 flex items-center gap-1"
-        ><FontAwesomeIcon icon={faCheck}/>Completed 
-        </button>
-
-        <button 
-          onClick={handleDeleteClick}
-          className="bg-red-500 text-white text-xs px-2 py-1 rounded"
-        >
-          Delete
-        </button>
-      </div>
-    </div>
-  );
-}) : (
-  <p className="text-sm">No resolved tasks yet.</p>
-)}
-
+                  <button 
+                    onClick={handleDeleteClick}
+                    className="bg-red-500 text-white text-xs px-2 py-1 rounded"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            );
+          }) : (
+            <p className="text-sm">No resolved tasks yet.</p>
+          )}
         </div>
       </div>
     </div>
