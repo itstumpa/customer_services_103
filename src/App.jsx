@@ -21,6 +21,7 @@ function App() {
       <Navbar />
       <Hero_Img inProgressCount={inProgress} resolvedCount={resolved} />
       <Suspense fallback={<span className="loading loading-ring loading-lg"></span>}>
+        {/* - counts  */}
         <Customer_Tickets
           customersPromise={customersPromise}
           onSelect={() => setInProgress(prev => prev + 1)}
@@ -37,4 +38,3 @@ function App() {
 
 export default App;
 
-// I learn this from "code with harry"
