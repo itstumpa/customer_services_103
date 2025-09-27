@@ -32,7 +32,7 @@
     "description": "App crashes when uploading profile picture.",
     "customer": "David Brown",
     "priority": "Low",
-    "status": "Resolved",
+    "status": "In-Progress",
     "createdAt": "2025-07-18"
   },
   {
@@ -68,7 +68,7 @@
     "description": "Password reset email not being sent.",
     "customer": "Henry Clark",
     "priority": "High",
-    "status": "Open",
+    "status": "In-Progress",
     "createdAt": "2025-09-05"
   },
   {
@@ -77,7 +77,7 @@
     "description": "Push notifications not working on Android devices.",
     "customer": "Isabella Lopez",
     "priority": "Low",
-    "status": "Resolved",
+    "status": "In-Progress",
     "createdAt": "2025-07-30"
   },
   {
